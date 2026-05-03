@@ -30,6 +30,15 @@ SPAM_MODEL = "mshenoda/roberta-spam"
 URL_RE = re.compile(r"https?://\S+|www\.\S+|discord\.gg/\S+", re.IGNORECASE)
 MENTION_RE = re.compile(r"<@!?\d+>|@everyone|@here")
 
+HEURISTIC_PATTERNS = (
+    re.compile(r"\bclick\s+here\b", re.IGNORECASE),
+    re.compile(r"\bbuy\s+now\b", re.IGNORECASE),
+    re.compile(r"\bfree\s+(?:nitro|gift|giveaway|robux|vbucks)\b", re.IGNORECASE),
+    re.compile(r"\bnitro\s+(?:free|gift|giveaway)\b", re.IGNORECASE),
+    re.compile(r"\bgiveaway\b", re.IGNORECASE),
+    re.compile(r"discord\.gg/", re.IGNORECASE),
+)
+
 
 @dataclass
 class UserState:
@@ -162,9 +171,8 @@ class SpamBehavioralAnalyzer:
     def _heuristic_spam(message: str) -> float:
         if not message:
             return 0.0
-        triggers = ("free", "click here", "buy now", "http", "discord.gg/", "nitro", "giveaway")
-        hits = sum(1 for t in triggers if t in message.lower())
-        return min(1.0, hits / 3.0)
+        hits = sum(1 for p in HEURISTIC_PATTERNS if p.search(message))
+        return min(1.0, hits / 2.0)
 
     @staticmethod
     def _normalize(text: str) -> str:
@@ -206,10 +214,14 @@ class SpamBehavioralAnalyzer:
         links = URL_RE.findall(message)
         if not links:
             return 0.0
+        has_invite = "discord.gg/" in message.lower()
+        if len(links) == 1 and not has_invite:
+            return 0.0
         tokens = max(1, len(message.split()))
         density = len(links) / tokens
-        invite_bonus = 0.3 if "discord.gg/" in message.lower() else 0.0
-        return min(1.0, density * 2 + invite_bonus + (0.5 if len(links) >= 2 else 0.0))
+        invite_bonus = 0.3 if has_invite else 0.0
+        multi_link_bonus = 0.5 if len(links) >= 2 else 0.0
+        return min(1.0, density + invite_bonus + multi_link_bonus)
 
     @staticmethod
     def _char_spam_score(message: str) -> float:
