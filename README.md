@@ -303,7 +303,7 @@ Some contextual and severe threat examples remain challenging due to:
 - indirect threats
 - conversational banter
 
-Future improvements may include:
+## Future improvements may include:
 - larger labeled datasets
 - fine-tuned moderation models
 - stronger contextual memory
