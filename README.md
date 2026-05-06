@@ -263,13 +263,52 @@ The project includes an evaluation pipeline using labeled moderation examples st
 ```bash
 python evaluation.py
 ```
+## Evaluation Results
 
-Evaluation metrics include:
+The moderation system was evaluated using a labeled dataset containing:
+- normal conversation messages
+- toxic insults
+- severe threats
+- spam messages
+- contextual banter examples
 
-- Accuracy
-- Precision
-- Recall
-- F1-score
+## Evaluation Metrics
+
+```text
+Accuracy: 66.67%
+
+Macro Average F1-score: 0.6187
+Weighted Average F1-score: 0.6518
+```
+## Per-Class Performance
+
+| Action  | Precision | Recall | F1-score |
+|---------|-----------|--------|----------|
+| Allow   |   0.4615  | 1.0000 |  0.6316  |  
+| Warn    |   0.6667  | 0.5714 |  0.6154  |
+| Delete  |   0.8750  | 0.8750 |  0.8750  |
+| Mute    |   1.0000  | 0.2500 |  0.4000  |
+| Ban     |   1.0000  | 0.4000 |  0.5714  |
+
+## Observations
+
+The system performed best on:
+- toxic message detection
+- delete-level moderation
+- explicit spam detection
+
+Some contextual and severe threat examples remain challenging due to:
+- sarcasm ambiguity
+- contextual interpretation
+- indirect threats
+- conversational banter
+
+Future improvements may include:
+- larger labeled datasets
+- fine-tuned moderation models
+- stronger contextual memory
+- improved threat detection
+- user behavior tracking across longer conversations
 
 ---
 
