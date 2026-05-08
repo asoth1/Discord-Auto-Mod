@@ -12,7 +12,7 @@ Runs the full Discord AutoMod:
 from toxicity import predict_with_context
 from sentiment import analyze_message
 from spam_behavioral import SpamBehavioralAnalyzer
-from fusion_update import fuse_features
+from fusion import fuse_features
 from decision_system import decide_action
 
 

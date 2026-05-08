@@ -47,7 +47,7 @@ def decide_action(fused):
         0.05 * fused.get("repetition", 0.0) +
         0.10 * fused.get("url_risk", 0.0) +
         0.10 * fused.get("behavioral", 0.0) +
-        0.02 * fused.get("mention", 0.0) +
+        0.08 * fused.get("mention", 0.0) +
         0.02 * fused.get("char_spam", 0.0)
     )
 
@@ -55,12 +55,12 @@ def decide_action(fused):
     # These override the score when content is obviously harmful
 
     # Very high threat -> immediate ban
-    if fused.get("threat", 0.0) >= 0.85:
+    if fused.get("threat", 0.0) >= 0.70:
         action = "ban"
         reason = "high threat content"
 
     # Strong hate + toxicity -> ban
-    elif fused.get("identity_hate", 0.0) >= 0.85 and fused.get("toxicity", 0.0) >= 0.75:
+    elif fused.get("identity_hate", 0.0) >= 0.70 and fused.get("toxicity", 0.0) >= 0.75:
         action = "ban"
         reason = "severe hateful toxic content"
 
