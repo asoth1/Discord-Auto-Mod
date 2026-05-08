@@ -1,4 +1,4 @@
-# Discord AutoMod NLP System
+# Clyra-Bot NLP System
 
 ---
 
@@ -91,7 +91,7 @@ Dashboard Output
 # Project Structure
 
 ```text
-discord-automod/
+Clyra-Bot/
 │
 ├── dashboard.py              # Streamlit moderation dashboard
 ├── main.py                   # Main NLP pipeline
@@ -131,8 +131,8 @@ discord-automod/
 ## Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/spotlur2/Discord-Auto-Mod.git
-cd Discord-Auto-Mod
+git clone https://github.com/spotlur2/Clyra-Bot.git
+cd Clyra-Bot
 ```
 
 ---
